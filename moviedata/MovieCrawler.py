@@ -1,12 +1,28 @@
 """This program is meant to crawl through my files and change the meta data for all the movies I have"""
+from imdb import IMDb
 import os
 
-path = raw_input("Please put full path to directory with movie files\n")
+path = "C:\Mihir\Popcorn Time\Movies"
 
-os.chdir(path)
+ia = IMDb('http')
 
 for file in os.listdir(path):
-    name = file.title()
-    name = name[0:name.index(".")]
+    fileTitle = ""
+    if (file.endswith(".mp4")):
+        fileTitle = file.replace(".mp4", "")
+    elif (file.endswith(".avi")):
+        fileTitle = fileTitle.replace(".avi", "")
+    elif (file.endswith(".mkv")):
+        fileTitle = fileTitle.replace(".mkv", "")
 
-    print name
+    try:
+        query_string = ia.search_movie(fileTitle)[0]
+    except IndexError:
+        print ia.search_movie(fileTitle)
+
+    print query_string
+
+
+
+
+

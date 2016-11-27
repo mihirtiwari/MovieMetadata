@@ -1,2 +1,2 @@
 # MovieMetadata
-A personal project that will provide metadata for all the movies in my library. Also trying out Python
+A personal project that will get information for all the movies in my library and put them into a file. Also trying out Python

@@ -1,4 +1,4 @@
-"""This program is meant to crawl through my files and change the meta data for all the movies I have"""
+"""This program is meant to crawl through my files and get information for all the movies I have"""
 from imdb import IMDb
 from datetime import datetime
 import os
@@ -27,6 +27,7 @@ for file in os.listdir(path):
         if previous_title == query_title or (query_year < 1989 or query_year > datetime.year):
             index += 1
             movie = list_of_results[index]
+            ia.update(movie)  # gets all information based on the movie selected
             query_title = MovieParser.parse_title(movie)
             query_year = MovieParser.parse_year(movie)
 
@@ -34,6 +35,7 @@ for file in os.listdir(path):
         query_cast = MovieParser.parse_cast(movie) #gets cast of movie
         query_producer = MovieParser.parse_producer(movie) #gets producer of movie
         query_writer = MovieParser.parse_writer(movie) #gets writer of movie
+        query_rating = MovieParser.parse_MPAA(movie) #gts MPAA rating for movie
 
         previous_title = query_title #gets the previous title for future use
     except IndexError:
@@ -45,9 +47,15 @@ for file in os.listdir(path):
     elif query_title.endswith(" (II)"):
         query_title = query_title.replace(" (II)", "")
 
-    print query_producer
+    # TODO: Figure out a way to write to file so that you don't have to rewrite everything over
+    f = open(path + "/moviedata.txt", 'a')
+    movie_info = query_title + "\n" + str(query_year) + "\n" + query_director + "\n" + query_producer + "\n" + \
+                 query_writer + "\n" + query_cast + "\n" + str(query_rating) + "\n"
+    f.write(movie_info.encode("utf-8"))
+    f.write("*************************************************\n")
+    f.close()
 
-
+print "Done getting information"
 
 
 
